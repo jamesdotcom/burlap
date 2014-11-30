@@ -62,6 +62,13 @@ public class ValueIteration extends ValueFunctionPlanner{
 	
 	protected boolean												hasRunVI = false;
 	
+	// JSE number of iterations 
+	protected int iterationsUntilConvergence = 0;
+	
+	public int getIterationsUntilConvergence() {
+		return iterationsUntilConvergence;
+	}
+	
 	
 	/**
 	 * Initializers the planner.
@@ -152,6 +159,7 @@ public class ValueIteration extends ValueFunctionPlanner{
 		}
 		
 		DPrint.cl(this.debugCode, "Passes: " + i);
+		this.iterationsUntilConvergence = i;
 		
 		this.hasRunVI = true;
 		

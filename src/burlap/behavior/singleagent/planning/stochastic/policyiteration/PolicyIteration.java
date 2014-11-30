@@ -57,6 +57,12 @@ public class PolicyIteration extends ValueFunctionPlanner {
 	 */
 	protected boolean												foundReachableStates = false;
 	
+	// JSE number of iterations
+	protected int iterationsUntilConvergence = 0;
+
+	public int getIterationsUntilConvergence() {
+		return iterationsUntilConvergence;
+	}
 	
 	
 	/**
@@ -139,6 +145,7 @@ public class PolicyIteration extends ValueFunctionPlanner {
 
 		int iterations = 0;
 		this.initializeOptionsForExpectationComputations();
+		int totalIterations = 0;
 		if(this.performReachabilityFrom(initialState)){
 			
 			double delta;
@@ -147,8 +154,10 @@ public class PolicyIteration extends ValueFunctionPlanner {
 				this.evaluativePolicy.setPlanner(lastValueFunction);
 				delta = this.evaluatePolicy();
 				iterations++;
+				totalIterations += this.iterationsUntilConvergence;
 			}while(delta > this.maxPIDelta && iterations < maxPolicyIterations);
 			
+			this.iterationsUntilConvergence = totalIterations;
 		}
 		
 
@@ -196,6 +205,7 @@ public class PolicyIteration extends ValueFunctionPlanner {
 		}
 		
 		DPrint.cl(this.debugCode, "Policy Eval Passes: " + i);
+		this.iterationsUntilConvergence = i;
 		
 		return maxChangeInPolicyEvaluation;
 		
